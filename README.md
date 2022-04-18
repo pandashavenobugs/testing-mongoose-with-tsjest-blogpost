@@ -7,3 +7,17 @@ Testing the code that We write makes us aware of the possible problems that occu
 # What is jest?
 
 [Jest](https://jestjs.io/) is a javascript testing framework. I will test all models by using jest. The reason I use the jest framework is that it requires minimum effort for testing.
+
+# Creating the project and installing the packages
+
+creating the package.json
+
+```bash
+npm init -y
+```
+
+I will use ts-jest package in this blog post beacause [ts-jest](https://kulshekhar.github.io/ts-jest/docs/) lets me use jest to test projects written in typescript. Before installing ts-jest it is required to install some packages.
+
+```bash
+npm install -D jest typescript ts-jest @types/jest ts-node @types/node
+```
