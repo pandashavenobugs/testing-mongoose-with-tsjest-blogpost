@@ -10,7 +10,7 @@ Testing the code that We write makes us aware of the possible problems that occu
 
 # Creating the project and installing the packages
 
-creating the package.json
+Creating the package.json
 
 ```bash
 npm init -y
