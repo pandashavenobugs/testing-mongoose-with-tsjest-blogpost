@@ -23,3 +23,25 @@ Installing the packages.
 ```bash
 npm install -D jest typescript ts-jest @types/jest ts-node @types/node
 ```
+
+Creating tsconfig.json
+
+```bash
+tsc --init
+```
+
+Changing properties in tsconfig.json for the project
+
+```json
+ "rootDir": "./src",
+ "moduleResolution": "node",
+ "baseUrl": ".",
+ "outDir": "./build",
+```
+
+Adding include and exclude sides in tsconfig,json.
+
+```json
+"include": ["src/**/*.ts"],
+"exclude": ["node_modules","build"]
+```
