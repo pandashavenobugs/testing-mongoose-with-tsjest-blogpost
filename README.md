@@ -49,3 +49,11 @@ Adding include and exclude sides in tsconfig.json.
 "include": ["src/**/*.ts"],
 "exclude": ["node_modules","build"]
 ```
+
+# Creating config file for testing
+
+```bash
+npx ts-jest config:init
+```
+
+After that, We could see jest.config.js in the project folder. And that's it.
