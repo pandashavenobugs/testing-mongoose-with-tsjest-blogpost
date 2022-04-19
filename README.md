@@ -24,6 +24,8 @@ Installing the packages.
 npm install -D jest typescript ts-jest @types/jest ts-node @types/node
 ```
 
+While installing mongoose we don't need the @types/mongoose because the mongoose package has built-in Typescript declarations.
+
 ```bash
 npm install mongoose
 ```
