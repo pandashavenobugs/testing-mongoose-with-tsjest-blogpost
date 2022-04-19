@@ -61,3 +61,38 @@ After that, You could see jest.config.js in the project folder. And that's it. W
 # Project Structure
 
 I created two main folders named src and test because I accepted this project as a real one. Model files will be in models folder in the src but tests of the models will be in the test.
+
+# Let's Create and Test
+
+## Connecting the MongoDB
+
+Create the connectDBForTesting.ts in the test folder. My MongoDB runs on localhost:27018 if you have different options you could add or change connection options while you connect to MongoDB.
+
+```bash
+touch test/connectDBForTesting.ts
+```
+
+```ts
+import mongoose from "mongoose";
+
+export async function connectDBForTesting() {
+  try {
+    const dbUri = "mongodb://localhost:27018";
+    const dbName = "test";
+    await mongoose.connect(dbUri, {
+      dbName,
+      autoCreate: true,
+    });
+  } catch (error) {
+    console.log("DB connect error");
+  }
+}
+
+export async function disconnectDBForTesting() {
+  try {
+    await mongoose.connection.close();
+  } catch (error) {
+    console.log("DB disconnect error");
+  }
+}
+```
