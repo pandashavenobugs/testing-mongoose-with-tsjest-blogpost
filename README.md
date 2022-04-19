@@ -16,7 +16,9 @@ Creating the package.json
 npm init -y
 ```
 
-I will use ts-jest package in this blog post beacause [ts-jest](https://kulshekhar.github.io/ts-jest/docs/) lets me use jest to test projects written in typescript. Before installing ts-jest it is required to install some packages.
+I will use ts-jest package in this blog post beacause [ts-jest](https://kulshekhar.github.io/ts-jest/docs/) lets me use jest to test projects written in typescript.
+
+Installing the packages.
 
 ```bash
 npm install -D jest typescript ts-jest @types/jest ts-node @types/node
