@@ -4,7 +4,7 @@
   "description": "If you want to learn MongoDB with mongoose, learning by testing is just for you. In this blog post, I talk about how to install ts-jest , how to create models and fake data using typescript and fakerjs, and how to use jest to test them.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx jest --coverage "
   },
   "repository": {
     "type": "git",
