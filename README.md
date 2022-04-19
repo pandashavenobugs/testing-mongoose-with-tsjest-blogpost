@@ -145,3 +145,9 @@ export default PersonModel;
 ```
 
 We have 2 important things here, PersonInput and PersonDocument interfaces. The PersonInput interface is used to create the PersonModel and the PersonDocument interface describes the object that is returned by the PersonModel. You will see clearly in the test section of the PersonModel.
+
+## Creating test for the PersonModel
+
+```bash
+touch test/person.model.test.ts
+```
