@@ -30,6 +30,12 @@ While installing mongoose we don't need the @types/mongoose because the mongoose
 npm install mongoose
 ```
 
+Givin data to inputs by myself is hard so I install the fakerjs package
+
+```bash
+npm install -D @faker-js/faker
+```
+
 Creating tsconfig.json
 
 ```bash
