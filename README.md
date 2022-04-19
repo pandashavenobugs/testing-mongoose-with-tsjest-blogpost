@@ -39,7 +39,7 @@ Changing properties in tsconfig.json for the project
  "outDir": "./build",
 ```
 
-Adding include and exclude sides in tsconfig,json.
+Adding include and exclude sides in tsconfig.json.
 
 ```json
 "include": ["src/**/*.ts"],
