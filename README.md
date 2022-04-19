@@ -56,4 +56,4 @@ Adding include and exclude sides in tsconfig.json.
 npx ts-jest config:init
 ```
 
-After that, We could see jest.config.js in the project folder. And that's it.
+After that, We could see jest.config.js in the project folder. And that's it. We are ready to go.
