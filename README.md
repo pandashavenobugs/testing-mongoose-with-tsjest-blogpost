@@ -6,7 +6,7 @@ Testing the code that We write makes us aware of the possible problems that occu
 
 # What is jest?
 
-[Jest](https://jestjs.io/) is a javascript testing framework. I will test all models by using jest. The reason I use the jest framework is that it requires minimum effort for testing.
+[Jest](https://jestjs.io/) is a javascript testing framework. I will test all models by using jest. The reason I use the jest framework is that it requires minimum configuration for testing.
 
 # Creating the project and installing the packages
 
