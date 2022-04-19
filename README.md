@@ -72,6 +72,8 @@ Create the connectDBForTesting.ts in the test folder. My MongoDB runs on localho
 touch test/connectDBForTesting.ts
 ```
 
+test/connectDBForTesting.ts
+
 ```ts
 import mongoose from "mongoose";
 
@@ -96,3 +98,50 @@ export async function disconnectDBForTesting() {
   }
 }
 ```
+
+## Creating mongoose model
+
+Models in mongoose are used for creating, reading, deleting, and updating the Documents from the MongoDB database. Let's create and test the Person model.
+
+```bash
+touch src/models/person.model.ts
+```
+
+src/models/person.model.ts
+
+```ts
+import mongoose, { Types, Schema } from "mongoose";
+
+export interface PersonInput {
+  name: string;
+  lastName: string;
+  address: string;
+  gender: string;
+  job: string;
+  age: number;
+}
+
+export interface PersonDocument extends PersonInput {
+  updatedAt: Date;
+  createdAt: Date;
+}
+
+const PersonSchema = new mongoose.Schema<PersonDocument>(
+  {
+    name: { type: String, required: [true, "name required"] },
+    lastName: { type: String },
+    address: { type: String, required: [true, "address required"] },
+    gender: { type: String, required: [true, "gender is required"] },
+    job: { type: String },
+    age: { type: Number, min: [18, "age must be greater than 18"] },
+  },
+  {
+    timestamps: true, // to create updatedAt and createdAt
+  }
+);
+
+const PersonModel = mongoose.model("Person", PersonSchema);
+export default PersonModel;
+```
+
+We have 2 important things here, PersonInput and PersonDocument interfaces. The PersonInput interface is used to create the PersonModel and the PersonDocument interface describes the object that is returned by the PersonModel. You will see clearly in the test section of the PersonModel.
