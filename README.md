@@ -21,7 +21,11 @@ I will use ts-jest package in this blog post beacause [ts-jest](https://kulshekh
 Installing the packages.
 
 ```bash
-npm install -D jest typescript ts-jest @types/jest ts-node @types/node mongoose
+npm install -D jest typescript ts-jest @types/jest ts-node @types/node
+```
+
+```bash
+npm install mongoose
 ```
 
 Creating tsconfig.json
