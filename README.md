@@ -30,7 +30,8 @@ While installing mongoose we don't need the @types/mongoose because the mongoose
 npm install mongoose
 ```
 
-Givin data to inputs by myself is hard so I install the fakerjs package
+Giving data to inputs by myself is hard so I install the @faker-js/faker package. @faker-js/faker
+helps me create random data for the models.
 
 ```bash
 npm install -D @faker-js/faker
