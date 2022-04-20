@@ -296,3 +296,11 @@ The result of the test failing
 ![The result of the test failing](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qlzc0tdfjo2njpc59f35.png)
 
 The reason the test fails is that the jest expects the createdPerson.job and createdPerson.name to have the same data.
+
+That's it. This is usually how to test mongoose models:
+
+- create a mongoose model.
+- create a test for the mongoose model.
+- apply the CRUD operations for the mongoose model in test sections.
+- if test fails, try to find out and solve the problem.
+- if the all tests pass, you are ready to go.
