@@ -478,3 +478,5 @@ Contact me:
 - [twitter](https://twitter.com/dinckan_berat)
 
 - [github](https://github.com/pandashavenobugs)
+
+Github Repo: https://github.com/pandashavenobugs/testing-mongoose-with-tsjest-blogpost
