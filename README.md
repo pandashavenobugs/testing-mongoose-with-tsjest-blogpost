@@ -1,4 +1,4 @@
-If you want to learn MongoDB with mongoose, learning by testing is just for you. In this blog post, I talk about how to install ts-jest , how to create models and fake data using typescript and fakerjs, and how to use jest to test them.
+If you want to learn MongoDB with mongoose, learning by testing is just for you. In this blog post, I talk about how to install ts-jest , how to create models and fake data using typescript and @faker-js/faker, and how to use jest to test them.
 
 # Why testing is important ?
 
@@ -361,7 +361,7 @@ test("personModel Update Test", async () => {
 });
 ```
 
-Even if I use the same schema, I can create personUpdateInput that is different from personInput because fakerjs creates data randomly. The properties of fetchedPerson is expected to match the personUpdateInput at the same time is expect to not match the personInput.
+Even if I use the same schema, I can create personUpdateInput that is different from personInput because @faker-js/faker creates data randomly. The properties of fetchedPerson is expected to match the personUpdateInput at the same time is expect to not match the personInput.
 
 ### PersonModel Delete Test
 
