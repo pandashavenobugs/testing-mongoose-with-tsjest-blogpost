@@ -213,7 +213,7 @@ test("personModel Create Test", async () => {
 });
 ```
 
-**Note** : When a new personModel is declared it returns a PersonDocument type object as well as Document type. So I can use the mongoose.Document properties, validates, and middlewares.
+**Note** : When a new personModel is declared it returns a PersonDocument type object. So I can use the mongoose.Document properties, validates, and middlewares.
 
 I create a person object using personInput. The person.save() method inserts a new document into the database and return PersonDocument type object.
 
