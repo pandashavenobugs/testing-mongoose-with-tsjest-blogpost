@@ -1,4 +1,4 @@
-import mongoose, { Types, Schema } from "mongoose";
+import mongoose, { Types, Schema, Document } from "mongoose";
 
 export interface PersonInput {
   name: string;
@@ -9,7 +9,7 @@ export interface PersonInput {
   age: number;
 }
 
-export interface PersonDocument extends PersonInput {
+export interface PersonDocument extends PersonInput, Document {
   updatedAt: Date;
   createdAt: Date;
 }
@@ -28,5 +28,5 @@ const PersonSchema = new mongoose.Schema<PersonDocument>(
   }
 );
 
-const PersonModel = mongoose.model("Person", PersonSchema);
-export default PersonModel;
+const personModel = mongoose.model("Person", PersonSchema);
+export default personModel;
