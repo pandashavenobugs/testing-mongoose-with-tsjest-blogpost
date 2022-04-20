@@ -284,3 +284,15 @@ npm run test
 The test result
 
 ![result of the test](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/65lomq9nxb98c0e5qjlt.png)
+
+To see what happens when a test fails I change a expect side with a wrong data on purpose.
+
+```typescript
+expect(createdPerson.job).toBe(person.name);
+```
+
+The result of the test failing
+
+![The result of the test failing](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qlzc0tdfjo2njpc59f35.png)
+
+The reason the test fails is that the jest expects the createdPerson.job and createdPerson.name to have the same data.
