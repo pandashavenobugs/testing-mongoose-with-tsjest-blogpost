@@ -68,11 +68,11 @@ After that, You could see jest.config.js in the project folder. And that's it. W
 
 # Project Structure
 
-I created two main folders named src and test because I accepted this project as a real one. Model files will be in models folder in the src but tests of the models will be in the test.
+I create two main folders named src and test because I accept this project as a real one. Model files will be in models folder in the src but tests of the models will be in the test.
 
 ## Connecting the MongoDB
 
-Create the connectDBForTesting.ts in the test folder. My MongoDB runs on localhost:27018 if you have different options you could add or change connection options while you connect to MongoDB.
+I Create the connectDBForTesting.ts in the test folder. My MongoDB runs on localhost:27018 if you have different options you could add or change connection options while you connect to MongoDB.
 
 ```bash
 touch test/connectDBForTesting.ts
