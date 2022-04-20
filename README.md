@@ -463,3 +463,18 @@ That's it. This is usually how to test mongoose models:
 - apply the CRUD operations for the mongoose model in test sections.
 - if test fails, try to find out and solve the problem.
 - if the all tests pass, you are ready to go.
+
+Sources:
+
+- https://jestjs.io/docs/getting-started
+- https://www.youtube.com/watch?v=TbT7eO1fxuI
+- https://mongoosejs.com/docs/guide.html
+- https://kulshekhar.github.io/ts-jest/
+
+Contact me:
+
+- [Linkedin](https://www.linkedin.com/in/cengiz-berat-din%C3%A7kan-ab4208128/)
+
+- [twitter](https://twitter.com/dinckan_berat)
+
+- [github](https://github.com/pandashavenobugs)
