@@ -3,21 +3,21 @@ import {
   disconnectDBForTesting,
 } from "../connectDBForTesting";
 
-import PersonModel, {
+import personModel, {
   PersonDocument,
   PersonInput,
 } from "../../src/models/person.model";
 import faker from "@faker-js/faker";
-describe("PersonModel Testing", () => {
+describe("personModel Testing", () => {
   beforeAll(async () => {
     await connectDBForTesting();
   });
   afterAll(async () => {
-    await PersonModel.collection.drop();
+    await personModel.collection.drop();
     await disconnectDBForTesting();
   });
 
-  it("PersonModel Create Test", async () => {
+  test("personModel Create Test", async () => {
     const personInput: PersonInput = {
       name: faker.name.findName(),
       lastName: faker.name.lastName(),
@@ -26,7 +26,7 @@ describe("PersonModel Testing", () => {
       gender: faker.name.gender(),
       job: faker.name.jobTitle(),
     };
-    const person = new PersonModel({ ...personInput });
+    const person = new personModel({ ...personInput });
     const createdPerson = await person.save();
     expect(createdPerson).toBeDefined();
     expect(createdPerson.name).toBe(person.name);
