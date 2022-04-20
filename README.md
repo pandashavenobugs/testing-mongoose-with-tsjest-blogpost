@@ -30,8 +30,7 @@ While installing mongoose we don't need the @types/mongoose because the mongoose
 npm install mongoose
 ```
 
-Giving data to inputs by myself is hard so I install the @faker-js/faker package. @faker-js/faker
-helps me create random data for the models.
+Giving data to inputs by myself is hard so I install the @faker-js/faker package. @faker-js/faker helps me create random data for the models.
 
 ```bash
 npm install -D @faker-js/faker
@@ -71,8 +70,6 @@ After that, You could see jest.config.js in the project folder. And that's it. W
 
 I created two main folders named src and test because I accepted this project as a real one. Model files will be in models folder in the src but tests of the models will be in the test.
 
-# Let's Create and Test
-
 ## Connecting the MongoDB
 
 Create the connectDBForTesting.ts in the test folder. My MongoDB runs on localhost:27018 if you have different options you could add or change connection options while you connect to MongoDB.
@@ -110,7 +107,7 @@ export async function disconnectDBForTesting() {
 
 ## Creating mongoose model
 
-Models in mongoose are used for creating, reading, deleting, and updating the Documents from the MongoDB database. Let's create and test the Person model.
+Models in mongoose are used for creating, reading, deleting, and updating the Documents from the MongoDB database. Let's create and test a Person model.
 
 ```bash
 touch src/models/person.model.ts
@@ -119,7 +116,7 @@ touch src/models/person.model.ts
 src/models/person.model.ts
 
 ```ts
-import mongoose, { Types, Schema } from "mongoose";
+import mongoose, { Types, Schema, Document } from "mongoose";
 
 export interface PersonInput {
   name: string;
@@ -130,7 +127,7 @@ export interface PersonInput {
   age: number;
 }
 
-export interface PersonDocument extends PersonInput {
+export interface PersonDocument extends PersonInput, Document {
   updatedAt: Date;
   createdAt: Date;
 }
@@ -142,20 +139,20 @@ const PersonSchema = new mongoose.Schema<PersonDocument>(
     address: { type: String, required: [true, "address required"] },
     gender: { type: String, required: [true, "gender is required"] },
     job: { type: String },
-    age: { type: Number, min: [18, "age must be greater than 18"] },
+    age: { type: Number, min: [18, "age must be adult"] },
   },
   {
     timestamps: true, // to create updatedAt and createdAt
   }
 );
 
-const PersonModel = mongoose.model("Person", PersonSchema);
-export default PersonModel;
+const personModel = mongoose.model("Person", PersonSchema);
+export default personModel;
 ```
 
-We have 2 important things here, PersonInput and PersonDocument interfaces. The PersonInput interface is used to create the PersonModel and the PersonDocument interface describes the object that is returned by the PersonModel. You will see clearly in the test section of the PersonModel.
+We have 2 important things here, PersonInput and [PersonDocument](https://mongoosejs.com/docs/typescript.html#using-extends-document) interfaces. The PersonInput interface is used to create the personModel and the PersonDocument interface describes the object that is returned by the personModel. You will see clearly in the test section of the personModel.
 
-## Creating test for the PersonModel
+## Creating test for the personModel
 
 ```bash
 touch test/person.model.test.ts
@@ -169,21 +166,82 @@ import {
   disconnectDBForTesting,
 } from "../connectDBForTesting";
 
-import PersonModel, {
+import personModel, {
   PersonDocument,
   PersonInput,
 } from "../../src/models/person.model";
 import faker from "@faker-js/faker";
-describe("PersonModel Testing", () => {
+describe("personModel Testing", () => {
+  beforeAll(async () => {
+    await connectDBForTesting();
+  });
+
+  afterAll(async () => {
+    await personModel.collection.drop();
+    await disconnectDBForTesting();
+  });
+});
+```
+
+First of all, the [**_describe_**](https://jestjs.io/docs/api#describename-fn) creates a block that includes test sections. You can add some global objects in the describe block to use them.
+
+[**_beforeAll_**](https://jestjs.io/docs/api#beforeallfn-timeout) runs a function before all tests in the describe block run. In the **_beforeAll_**, I connect the MongoDB server.
+
+[**_afterAll_**](https://jestjs.io/docs/api#afterallfn-timeout) runs a function after all tests in the describe block have complated. In the **_afterAll_**, I disconnect the MongoDB server and drop the personModel collection.
+
+### PersonModel Create Test
+
+```ts
+test("personModel Create Test", async () => {
+  const personInput: PersonInput = {
+    name: faker.name.findName(),
+    lastName: faker.name.lastName(),
+    age: faker.datatype.number({ min: 18, max: 50 }),
+    address: faker.address.streetAddress(),
+    gender: faker.name.gender(),
+    job: faker.name.jobTitle(),
+  };
+  const person = new personModel({ ...personInput });
+  const createdPerson = await person.save();
+  expect(createdPerson).toBeDefined();
+  expect(createdPerson.name).toBe(person.name);
+  expect(createdPerson.lastName).toBe(person.lastName);
+  expect(createdPerson.age).toBe(person.age);
+  expect(createdPerson.address).toBe(person.address);
+  expect(createdPerson.gender).toBe(person.gender);
+  expect(createdPerson.job).toBe(person.job);
+});
+```
+
+**Note** : When a new personModel is declared it returns a PersonDocument type object as well as Document type. So I can use the mongoose.Document properties, validates, and middlewares.
+
+I create a person object using personInput. The person.save() method inserts a new document into the database and return PersonDocument type object.
+
+[**_expect_**](https://jestjs.io/docs/expect) checks if the given data matches the certain conditions or not. If the given data matches the certain conditions the test passes. If not so, the test fails.
+
+### The last state of the test/models/person.model.test.ts
+
+```ts
+import {
+  connectDBForTesting,
+  disconnectDBForTesting,
+} from "../connectDBForTesting";
+
+import personModel, {
+  PersonDocument,
+  PersonInput,
+} from "../../src/models/person.model";
+import faker from "@faker-js/faker";
+describe("personModel Testing", () => {
   beforeAll(async () => {
     await connectDBForTesting();
   });
   afterAll(async () => {
-    await PersonModel.collection.drop();
+    await personModel.collection.drop();
     await disconnectDBForTesting();
   });
 
-  it("PersonModel Create Test", async () => {
+  test("personModel Create Test", async () => {
     const personInput: PersonInput = {
       name: faker.name.findName(),
       lastName: faker.name.lastName(),
@@ -192,7 +250,7 @@ describe("PersonModel Testing", () => {
       gender: faker.name.gender(),
       job: faker.name.jobTitle(),
     };
-    const person = new PersonModel({ ...personInput });
+    const person = new personModel({ ...personInput });
     const createdPerson = await person.save();
     expect(createdPerson).toBeDefined();
     expect(createdPerson.name).toBe(person.name);
@@ -205,4 +263,24 @@ describe("PersonModel Testing", () => {
 });
 ```
 
-First of all, I **describe** the PersonModel test section,"PersonModel Create Test"
+### Running the jest
+
+I add a command to the scripts in package.json to run the jest.
+
+```json
+"scripts": {
+    "test": "npx jest --coverage "
+  },
+```
+
+[**_coverage_**](https://jestjs.io/docs/cli#--coverageboolean) options indicates that test coverage information should be collected and reported in the output. But you can ignore it.
+
+I run the test.
+
+```bash
+npm run test
+```
+
+The test result
+
+![result of the test](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/65lomq9nxb98c0e5qjlt.png)
