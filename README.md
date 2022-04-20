@@ -297,6 +297,165 @@ The result of the test failing
 
 The reason the test fails is that the jest expects the createdPerson.job and createdPerson.name to have the same data.
 
+## PersonModel Read Test
+
+```ts
+test("personModel Read Test", async () => {
+  const personInput: PersonInput = {
+    name: faker.name.findName(),
+    lastName: faker.name.lastName(),
+    age: faker.datatype.number({ min: 18, max: 50 }),
+    address: faker.address.streetAddress(),
+    gender: faker.name.gender(),
+    job: faker.name.jobTitle(),
+  };
+  const person = new personModel({ ...personInput });
+  await person.save();
+  const fetchedPerson = await personModel.findOne({ _id: person._id });
+  expect(fetchedPerson).toBeDefined();
+  expect(fetchedPerson).toMatchObject(personInput);
+});
+```
+
+I create a personModel and save it then fetch the person by \_id. The fetchedPerson has to be defined and its properties have to be the same as the personInput has. I can check if the fetchPerson properties match the personInput properties using the **_expect.tobe()_** one by one but using **_expect.toMatchObject()_** is a little bit more easy.
+
+[**_expect.toMatchObject()_**](https://jestjs.io/docs/expect#tomatchobjectobject) checks if a received javascript object matches the properties of an expected javascript object.
+
+## Something is missing
+
+For the each test, I created person model over and over again.It was not much efficient Therefore I declare the personInput and personModel top of the describe.
+
+```ts
+describe("personModel Testing", () => {}
+const personInput: PersonInput = {
+    name: faker.name.findName(),
+    lastName: faker.name.lastName(),
+    age: faker.datatype.number({ min: 18, max: 50 }),
+    address: faker.address.streetAddress(),
+    gender: faker.name.gender(),
+    job: faker.name.jobTitle(),
+  };
+  const person = new personModel({ ...personInput });
+)
+```
+
+So I can use the personInput and person objects in all tests.
+
+### PersonModel Update Test
+
+```ts
+test("personModel Update Test", async () => {
+  const personUpdateInput: PersonInput = {
+    name: faker.name.findName(),
+    lastName: faker.name.lastName(),
+    age: faker.datatype.number({ min: 18, max: 50 }),
+    address: faker.address.streetAddress(),
+    gender: faker.name.gender(),
+    job: faker.name.jobTitle(),
+  };
+  await personModel.updateOne({ _id: person._id }, { ...personUpdateInput });
+  const fetchedPerson = await personModel.findOne({ _id: person._id });
+  expect(fetchedPerson).toBeDefined();
+  expect(fetchedPerson).toMatchObject(personUpdateInput);
+  expect(fetchedPerson).not.toMatchObject(personInput);
+});
+```
+
+Even if I use the same schema, I can create personUpdateInput that is different from personInput because fakerjs creates data randomly. The properties of fetchedPerson is expected to match the personUpdateInput at the same time is expect to not match the personInput.
+
+### PersonModel Delete Test
+
+```ts
+test("personModel Delete Test", async () => {
+  await personModel.deleteOne({ _id: person._id });
+  const fetchedPerson = await personModel.findOne({ _id: person._id });
+  expect(fetchedPerson).toBeNull();
+});
+```
+
+I delete a mongoose document by using person.\_id. After that, The fetchedPerson fetched from MongoDB by using is expected to be null.
+
+### The last State of the test/models/person.model.test.ts
+
+```ts
+import {
+  connectDBForTesting,
+  disconnectDBForTesting,
+} from "../connectDBForTesting";
+
+import personModel, {
+  PersonDocument,
+  PersonInput,
+} from "../../src/models/person.model";
+import faker from "@faker-js/faker";
+describe("personModel Testing", () => {
+  const personInput: PersonInput = {
+    name: faker.name.findName(),
+    lastName: faker.name.lastName(),
+    age: faker.datatype.number({ min: 18, max: 50 }),
+    address: faker.address.streetAddress(),
+    gender: faker.name.gender(),
+    job: faker.name.jobTitle(),
+  };
+  const person = new personModel({ ...personInput });
+
+  beforeAll(async () => {
+    await connectDBForTesting();
+  });
+  afterAll(async () => {
+    await personModel.collection.drop();
+    await disconnectDBForTesting();
+  });
+
+  test("personModel Create Test", async () => {
+    const createdPerson = await person.save();
+    expect(createdPerson).toBeDefined();
+    expect(createdPerson.name).toBe(person.name);
+    expect(createdPerson.lastName).toBe(person.lastName);
+    expect(createdPerson.age).toBe(person.age);
+    expect(createdPerson.address).toBe(person.address);
+    expect(createdPerson.gender).toBe(person.gender);
+    expect(createdPerson.job).toBe(person.job);
+  });
+
+  test("personModel Read Test", async () => {
+    const fetchedPerson = await personModel.findOne({ _id: person._id });
+    expect(fetchedPerson).toBeDefined();
+    expect(fetchedPerson).toMatchObject(personInput);
+  });
+  test("personModel Update Test", async () => {
+    const personUpdateInput: PersonInput = {
+      name: faker.name.findName(),
+      lastName: faker.name.lastName(),
+      age: faker.datatype.number({ min: 18, max: 50 }),
+      address: faker.address.streetAddress(),
+      gender: faker.name.gender(),
+      job: faker.name.jobTitle(),
+    };
+    await personModel.updateOne({ _id: person._id }, { ...personUpdateInput });
+    const fetchedPerson = await personModel.findOne({ _id: person._id });
+    expect(fetchedPerson).toBeDefined();
+    expect(fetchedPerson).toMatchObject(personUpdateInput);
+    expect(fetchedPerson).not.toMatchObject(personInput);
+  });
+
+  test("personModel Delete Test", async () => {
+    await personModel.deleteOne({ _id: person._id });
+    const fetchedPerson = await personModel.findOne({ _id: person._id });
+    expect(fetchedPerson).toBeNull();
+  });
+});
+```
+
+## Testing all
+
+```bash
+npm run test
+```
+
+## Result
+
+![Result](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/k222cmf614yf9942abss.png)
 That's it. This is usually how to test mongoose models:
 
 - create a mongoose model.
